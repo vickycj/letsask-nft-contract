@@ -23,9 +23,9 @@ contract LetsAskNftContract is ERC721URIStorage {
     ];
 
     string svg1 =
-        "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: '";
+        "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: ";
     string svg2 =
-        "; font-family: serif; font-size: 24px; }</style><rect width='100%' height='100%' fill='";
+        "; font-family: courier new; font-size: 24px; }</style><rect width='100%' height='100%' fill='";
     string svg3 =
         "'/><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
 
@@ -34,20 +34,20 @@ contract LetsAskNftContract is ERC721URIStorage {
     }
 
     function mintLetsAskNft(
-        string memory to,
-        string memory data,
+        string memory questionTo,
+        string memory question,
         uint8 textColor,
         uint8 bgColor
     ) public {
-        require(bytes(data).length > 0, "Empty question to mint");
-        require(bytes(data).length > 280, "More than 280 character length");
-        require(bytes(to).length > 0, "Empty To Field");
+        require(bytes(question).length > 0, "Empty question to mint");
+        require(bytes(question).length < 281, "More than 280 character length");
+        require(bytes(questionTo).length > 0, "Empty To Field");
         require(
-            bytes(to).length > 10,
+            bytes(questionTo).length < 11,
             "More than 10 character length of to field"
         );
-        require(textColor > 6, "Wrong text color value. Should be less than 6");
-        require(bgColor > 6, "Wrong bgColor value. Should be less than 6");
+        require(textColor < 6, "Wrong text color value. Should be less than 6");
+        require(bgColor < 6, "Wrong bgColor value. Should be less than 6");
 
         uint256 newItemId = _tokenIds.current();
         string memory finalSvg = string(
@@ -57,13 +57,18 @@ contract LetsAskNftContract is ERC721URIStorage {
                 svg2,
                 bgColors[bgColor],
                 svg3,
-                data,
+                "Hello ",
+                questionTo,
+                ",",
+                question,
                 "</text></svg>"
             )
         );
 
-        string memory questionTo = string(
-            abi.encodePacked("Question #", newItemId, "-", to)
+       
+
+        string memory qTo = string(
+            abi.encodePacked("Q#", Strings.toString(newItemId), " - ", questionTo)
         );
 
         string memory finalJson = Base64.encode(
@@ -71,7 +76,7 @@ contract LetsAskNftContract is ERC721URIStorage {
                 string(
                     abi.encodePacked(
                         '{"name": "',
-                        questionTo,
+                        qTo,
                         '", "description": "Lets Ask - Question the status Quo", "image": "data:image/svg+xml;base64,',
                         Base64.encode(bytes(finalSvg)),
                         '"}'
@@ -83,6 +88,8 @@ contract LetsAskNftContract is ERC721URIStorage {
         string memory finalTokenUri = string(
             abi.encodePacked("data:application/json;base64,", finalJson)
         );
+
+         console.log(finalTokenUri);
 
         _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, finalTokenUri);
