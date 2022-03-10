@@ -23,6 +23,9 @@ async function main() {
   
 }
 
+//Contract deployed address
+//0xad5ca872f92a8c789c13e2487251de2849173bb1
+
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main()
