@@ -12,6 +12,8 @@ contract LetsAskNftContract is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
+    event LetsAskNftMinted(address sender, uint256 tokenId);
+
     string[] bgColors = ["black", "turquoise", "red", "blue", "brown", "green"];
     string[] textColors = [
         "white",
@@ -95,5 +97,6 @@ contract LetsAskNftContract is ERC721URIStorage {
         _setTokenURI(newItemId, finalTokenUri);
         _tokenIds.increment();
         console.log("LetsAsk NFT minted", newItemId, msg.sender);
+        emit LetsAskNftMinted(msg.sender, newItemId);
     }
 }
