@@ -19,7 +19,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
   networks: {
     matic: {
-      url: process.env.ALCHEMY_URL,
+      url: process.env.ALCHEMY_KEY,
       accounts: [process.env.PRIVATE_KEY]
     }
   },
