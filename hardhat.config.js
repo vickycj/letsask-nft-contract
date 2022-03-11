@@ -18,10 +18,14 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   networks: {
-    matic: {
+    matictest: {
       url: process.env.ALCHEMY_KEY,
       accounts: [process.env.PRIVATE_KEY]
-    }
+    },
+    maticmain: {
+      url: process.env.ALCHEMY_KEY_PROD,
+      accounts: [process.env.PRIVATE_KEY_PROD]
+    },
   },
   solidity: "0.8.4",
 };
