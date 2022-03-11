@@ -14,22 +14,9 @@ contract LetsAskNftContract is ERC721URIStorage {
 
     event LetsAskNftMinted(address sender, uint256 tokenId);
 
-    string[] bgColors = ["black", "turquoise", "red", "blue", "brown", "green"];
-    string[] textColors = [
-        "white",
-        "linen",
-        "azure",
-        "bisque",
-        "yellow",
-        "snow"
-    ];
 
-    string svg1 =
-        "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: ";
-    string svg2 =
-        "; font-family: courier new; font-size: 24px; }</style><rect width='100%' height='100%' fill='";
-    string svg3 =
-        "'/><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
+    string svg1 = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 500 500'> <rect width='100%' height='100%' fill='black' /> <foreignObject x='0' y='0' width='100%' height='100%'> <body xmlns='http://www.w3.org/1999/xhtml'> <div style=' font-size: 20px; position: absolute; top: 50%; left: 50%; -ms-transform: translateX(-50%) translateY(-50%); -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);'> <p id='text' style='text-align: center; vertical-align: middle; background: -webkit-linear-gradient(left, #FC5C7D, #6A82FB); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>";
+     string svg2 ="</p></div></body></foreignObject></svg>";
 
     constructor() ERC721("LetsAsk", "LA") {
         console.log("LetsAskNftContract Constructor");
@@ -37,9 +24,7 @@ contract LetsAskNftContract is ERC721URIStorage {
 
     function mintLetsAskNft(
         string memory questionTo,
-        string memory question,
-        uint8 textColor,
-        uint8 bgColor
+        string memory question
     ) public {
         require(bytes(question).length > 0, "Empty question to mint");
         require(bytes(question).length < 281, "More than 280 character length");
@@ -48,22 +33,17 @@ contract LetsAskNftContract is ERC721URIStorage {
             bytes(questionTo).length < 11,
             "More than 10 character length of to field"
         );
-        require(textColor < 6, "Wrong text color value. Should be less than 6");
-        require(bgColor < 6, "Wrong bgColor value. Should be less than 6");
 
         uint256 newItemId = _tokenIds.current();
         string memory finalSvg = string(
             abi.encodePacked(
                 svg1,
-                textColors[textColor],
-                svg2,
-                bgColors[bgColor],
-                svg3,
                 "Hello ",
                 questionTo,
                 ",",
                 question,
-                "</text></svg>"
+                svg2
+               
             )
         );
 
