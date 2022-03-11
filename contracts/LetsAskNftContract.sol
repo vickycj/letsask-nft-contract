@@ -40,7 +40,7 @@ contract LetsAskNftContract is ERC721URIStorage {
                 svg1,
                 "Hello ",
                 questionTo,
-                ",",
+                ", ",
                 question,
                 svg2
                
